@@ -5,7 +5,7 @@ import csv
 url = "https://www.pro-football-reference.com/years/2024/passing.htm"
 response = requests.get(url)
 soup = BeautifulSoup(response.content, 'html.parser')
-csvFilename = 'quarterbackDataset.csv'
+csvFilename = 'backend/quarterbackDataset.csv'
 
 quarterbacks = soup.find_all('tr')[:54]
 
