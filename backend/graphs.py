@@ -53,6 +53,8 @@ teamColors = {
     "TEN": "#0193DD"
 }
 
+sns.set_theme()
+
 def create_graph(stat, limit, ascending):
     query = '''SELECT Player, Team, "''' + stat + '''" FROM dataset ORDER BY "''' + stat + '''" ''' + ascending + ''' LIMIT ''' + str(limit)
     result = duckdb.query(query).to_df()
@@ -67,5 +69,3 @@ def create_graph(stat, limit, ascending):
     plt.savefig(imgSrc)
 
     return imgSrc;
-
-create_graph("Completion %", 5, "DESC")
