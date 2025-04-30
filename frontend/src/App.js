@@ -30,6 +30,9 @@ function App() {
   const [stat, setStat] = useState("Pass Yards");
   const [ascend, setAscend] = useState("DESC");
   const [imageUrl, setImageUrl] = useState("http://localhost:5000/graphs/Pass Yards10DESC.png");
+  const [submittedStat, setSubmittedStat] = useState(stat);
+  const [submittedLimit, setSubmittedLimit] = useState(limit);
+  const [submittedAscend, setSubmittedAscend] = useState(ascend);
 
   const submit = async(e) => {
     e.preventDefault();
@@ -45,6 +48,9 @@ function App() {
     });
     let url = "http://localhost:5000/" + response.data["image"];
     setImageUrl(url)
+    setSubmittedAscend(ascend);
+    setSubmittedLimit(limit);
+    setSubmittedStat(stat);
   }
 
   const handleStatDropDown = event => {
@@ -88,6 +94,7 @@ function App() {
           <button id="submit-button" onClick={submit}>Submit</button>
       </div>
       <div className="result">
+        <h1>{submittedAscend == "DESC" ? "Top" : "Bottom"} {submittedLimit} QBs in {submittedStat}</h1>
         <img src={imageUrl} />
       </div>
     </div>
