@@ -4,7 +4,7 @@ import seaborn as sns
 import matplotlib
 import matplotlib.pyplot as plt
 
-qbStatTable = "backend/quarterbackDataset.csv"
+qbStatTable = "quarterbackDataset.csv"
 columns = ["Player", "Age", "Team", "G", "QBrec", "Cmp", "Att", "Cmp%", "Yds", "TD", "Int", "1D", "Succ%", "Lng", "Y/A", "Y/C", "Rate", "QBR", "Sk", "4QC", "GWD"]
 colLabels = ["Player", "Age", "Team", "Games Played", "Record", "Completions", "Attempts", "Completion %", "Pass Yards", "Touchdowns", "Interceptions", "First Downs Passing", "Success Rate", "Longest Pass", "Yards/Attempt", "Yards/Completion", "Rate", "QBR", "Sacks", "4Q Comebacks", "Game Winning Drives"]
 dataset = pandas.read_csv(qbStatTable, usecols=columns)
@@ -58,7 +58,7 @@ sns.set_theme()
 def create_graph(stat, limit, ascending):
     query = '''SELECT Player, Team, "''' + stat + '''" FROM dataset ORDER BY "''' + stat + '''" ''' + ascending + ''' LIMIT ''' + str(limit)
     result = duckdb.query(query).to_df()
-    imgSrc = "backend/graphs/" + stat + str(limit) + ascending + ".png"
+    imgSrc = "graphs/" + stat + str(limit) + ascending + ".png"
     
     plt.figure(figsize=(max(7, limit * 0.5), 7))
     graph = sns.barplot(result, x="Player", y=stat, hue='Team', palette=teamColors, legend=False)
