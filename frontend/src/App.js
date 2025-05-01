@@ -3,8 +3,9 @@ import { useState } from 'react';
 import './App.css';
 
 function App() {
-
+  // Array from 3 to 32 for the minimum and maximum Quarterbacks allowed in a graph
   const limits = Array.from({ length: 30 }, (_, i) => i + 3);
+  // Array containing all the possible stats to create a graph with
   const stats = [
     "Age",
     "Games Played",
@@ -26,44 +27,50 @@ function App() {
     "Game Winning Drives"
   ];
 
-  const [limit, setLimit] = useState(10);
-  const [stat, setStat] = useState("Pass Yards");
-  const [ascend, setAscend] = useState("DESC");
-  const [imageUrl, setImageUrl] = useState("http://localhost:5000/graphs/Pass Yards10DESC.png");
-  const [submittedStat, setSubmittedStat] = useState(stat);
-  const [submittedLimit, setSubmittedLimit] = useState(limit);
-  const [submittedAscend, setSubmittedAscend] = useState(ascend);
+  const [limit, setLimit] = useState(10); // State variable to hold the limit from the form on the website
+  const [stat, setStat] = useState("Pass Yards"); // State variable to hold the stat from the form on the website
+  const [ascend, setAscend] = useState("DESC"); // State variable to hold the choice of ascending or descending from the form on the website
+  const [imageUrl, setImageUrl] = useState("http://localhost:5000/graphs/Pass Yards10DESC.png"); // State variable to hold the image path of the graph
+  const [submittedStat, setSubmittedStat] = useState(stat); // State variable to hold the submitted stat
+  const [submittedLimit, setSubmittedLimit] = useState(limit); // State variable to hold the submitted limit
+  const [submittedAscend, setSubmittedAscend] = useState(ascend); // State variable to hold the submitted choice of ascending or descending
 
+  // Function to handle form submission
   const submit = async(e) => {
     e.preventDefault();
+    // JSON Object of the users form submission data
     let submission = {
       "stat": stat,
       "limit": parseInt(limit),
       "ascending": ascend
     }
+    // Uses axios to send a POST request to the backend the JSON object of the form submission data
     const response = await axios.post("http://localhost:5000/submit", submission, {
       headers: {
         'Content-Type': 'application/json'
       }
     });
-    let url = "http://localhost:5000/" + response.data["image"];
-    setImageUrl(url)
-    setSubmittedAscend(ascend);
-    setSubmittedLimit(limit);
-    setSubmittedStat(stat);
+    let url = "http://localhost:5000/" + response.data["image"]; // Gets the image URL from the response JSON object returned from the backend
+    setImageUrl(url); // Updates the image state variable with the new graph image
+    setSubmittedAscend(ascend); // Updates the submitted choice of ascending or descending
+    setSubmittedLimit(limit); // Updates the submitted limit
+    setSubmittedStat(stat); // Updates the submitted stat
   }
 
+  // Function to handle when the user changes their form choice for stat
   const handleStatDropDown = event => {
     setStat(event.target.value);
   }
-
+  // Function to handle when the user changes their form choice for limit
   const handleLimitDropDown = event => {
     setLimit(event.target.value);
   }
-
+  // Function to handle when the user changes their form choice for ascending or descending
   const handleAscendDropDown = event => {
     setAscend(event.target.value);
   }
+
+  // HTML containing the form and the image of the graph
   return (
     <div className="container">
       <div className="formContainer">

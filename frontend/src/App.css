@@ -1,135 +1,135 @@
 body {
-  margin: 0;
-  background-color: #121212;
-  color: #f0f0f0;
-  font-family: 'Segoe UI', sans-serif;
-  transition: background-color 0.3s ease;
+  margin: 0; /* Remove default margin */
+  background-color: #121212; /* Dark background */
+  color: #f0f0f0; /* Light text color */
+  font-family: 'Segoe UI', sans-serif; /* Font style */
+  transition: background-color 0.3s ease; /* Smooth bg transition */
 }
 
 .container {
-  display: flex;
-  height: 100vh;
-  width: 100%;
+  display: flex; /* Flex layout */
+  height: 100vh; /* Full viewport height */
+  width: 100%; /* Full width */
 }
 
 .formContainer {
-  width: 35%;
-  min-width: 300px;
-  background-color: #1e1e1e;
-  padding: 40px 30px;
+  width: 35%; /* Sidebar width */
+  min-width: 300px; /* Minimum width */
+  background-color: #1e1e1e; /* Darker bg */
+  padding: 40px 30px; /* Inner spacing */
   display: flex;
-  flex-direction: column;
-  justify-content: center;
-  border-right: 2px solid #2c2c2c;
-  animation: fadeIn 0.5s ease-in;
+  flex-direction: column; /* Vertical layout */
+  justify-content: center; /* Center content */
+  border-right: 2px solid #2c2c2c; /* Right border */
+  animation: fadeIn 0.5s ease-in; /* Fade in animation */
 }
 
 h1 {
-  font-size: 2rem;
-  margin-bottom: 40px;
-  color: #a8324e;
-  text-align: center;
-  animation: slideDown 0.5s ease-out;
+  font-size: 2rem; /* Heading size */
+  margin-bottom: 40px; /* Space below */
+  color: #a8324e; /* Accent color */
+  text-align: center; /* Center text */
+  animation: slideDown 0.5s ease-out; /* Slide animation */
 }
 
 .form-group {
-  margin-bottom: 25px;
-  animation: fadeIn 0.5s ease-in forwards;
-  opacity: 0;
-  animation-delay: 0.3s;
+  margin-bottom: 25px; /* Space between inputs */
+  animation: fadeIn 0.5s ease-in forwards; /* Appear animation */
+  opacity: 0; /* Start hidden */
+  animation-delay: 0.3s; /* Delay start */
 }
 
 label {
-  font-size: 1rem;
-  color: #a8324e;
-  margin-bottom: 8px;
+  font-size: 1rem; /* Label text size */
+  color: #a8324e; /* Label color */
+  margin-bottom: 8px; /* Space below */
   display: block;
-  font-weight: 600;
+  font-weight: 600; /* Bold text */
 }
 
 select {
-  width: 100%;
-  padding: 10px;
-  background-color: #2a2a2a;
-  color: #ffffff;
-  border: 2px solid #a8324e;
-  border-radius: 8px;
+  width: 100%; /* Full width */
+  padding: 10px; /* Inner padding */
+  background-color: #2a2a2a; /* Input bg */
+  color: #ffffff; /* Text color */
+  border: 2px solid #a8324e; /* Border style */
+  border-radius: 8px; /* Rounded corners */
   font-size: 1rem;
-  transition: border-color 0.3s ease, transform 0.2s ease;
+  transition: border-color 0.3s ease, transform 0.2s ease; /* Focus effect */
 }
 
 select:focus {
-  outline: none;
-  border-color: #b34f66;
-  transform: scale(1.02);
+  outline: none; /* Remove focus outline */
+  border-color: #b34f66; /* Highlight border */
+  transform: scale(1.02); /* Slight zoom */
 }
 
 #submit-button {
   margin-top: 20px;
   padding: 12px;
-  background-color: #6a0dad;
+  background-color: #6a0dad; /* Button bg */
   color: #ffffff;
   font-size: 1.1rem;
   font-weight: bold;
   border: none;
-  border-radius: 10px;
+  border-radius: 10px; /* Rounded button */
   cursor: pointer;
-  transition: background 0.3s ease, transform 0.2s ease;
+  transition: background 0.3s ease, transform 0.2s ease; /* Hover effect */
 }
 
 #submit-button:hover {
-  background-color: #834ac0;
-  transform: translateY(-2px);
+  background-color: #834ac0; /* Hover color */
+  transform: translateY(-2px); /* Slight lift */
 }
 
 .result {
-  flex-grow: 1;
-  background-color: #181818;
+  flex-grow: 1; /* Fill remaining space */
+  background-color: #181818; /* Dark result bg */
   padding: 40px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  overflow-y: auto;
-  animation: fadeIn 0.8s ease-in;
+  overflow-y: auto; /* Scroll if needed */
+  animation: fadeIn 0.8s ease-in; /* Appear animation */
 }
 
 .result h2 {
-  color: #6a0dad;
+  color: #6a0dad; /* Heading accent */
   margin-bottom: 30px;
   font-size: 1.5rem;
   text-align: center;
-  animation: slideUp 0.5s ease;
+  animation: slideUp 0.5s ease; /* Slide in */
 }
 
 .result img {
   max-width: 90%;
   height: auto;
   border-radius: 12px;
-  border: 2px solid #b34f66;
-  transition: transform 0.3s ease;
+  border: 2px solid #b34f66; /* Image border */
+  transition: transform 0.3s ease; /* Hover effect */
 }
 
 .result img:hover {
-  transform: scale(1.01);
+  transform: scale(1.01); /* Slight zoom */
 }
 
 /* Animations */
 @keyframes fadeIn {
   from {
     opacity: 0;
-    transform: translateY(5px);
+    transform: translateY(5px); /* Start lower */
   }
   to {
     opacity: 1;
-    transform: translateY(0);
+    transform: translateY(0); /* Move up */
   }
 }
 
 @keyframes slideDown {
   from {
     opacity: 0;
-    transform: translateY(-10px);
+    transform: translateY(-10px); /* Start higher */
   }
   to {
     opacity: 1;
@@ -140,7 +140,7 @@ select:focus {
 @keyframes slideUp {
   from {
     opacity: 0;
-    transform: translateY(10px);
+    transform: translateY(10px); /* Start lower */
   }
   to {
     opacity: 1;

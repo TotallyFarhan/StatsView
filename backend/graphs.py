@@ -1,16 +1,18 @@
 import pandas
 import duckdb
 import seaborn as sns
-import matplotlib
 import matplotlib.pyplot as plt
 
 qbStatTable = "quarterbackDataset.csv"
+# Array of all the column names to be used in our dataset
 columns = ["Player", "Age", "Team", "G", "QBrec", "Cmp", "Att", "Cmp%", "Yds", "TD", "Int", "1D", "Succ%", "Lng", "Y/A", "Y/C", "Rate", "QBR", "Sk", "4QC", "GWD"]
+# Array of all the column labels to be used in the dataset
 colLabels = ["Player", "Age", "Team", "Games Played", "Record", "Completions", "Attempts", "Completion Percentage", "Pass Yards", "Touchdowns", "Interceptions", "First Downs Passing", "Success Rate", "Longest Pass", "Yards/Attempt", "Yards/Completion", "Rate", "QBR", "Sacks", "4Q Comebacks", "Game Winning Drives"]
+# Creates a Pandas Dataframe using the CSV file created from database.py with the columns specified in the columns array
 dataset = pandas.read_csv(qbStatTable, usecols=columns)
-
+# Sets the labels of the columns to the array of column labels above
 dataset.columns = colLabels
-
+# Dictionary containing each team name's abbreviation (as found in the dataset) and its designated color for the bar plot bars
 teamColors = {
     "WAS": "#5A0C0C",
     "PHI": "#004C54",
@@ -52,20 +54,23 @@ teamColors = {
     "HOU": "#03202F",
     "TEN": "#0193DD"
 }
-
+# Sets the theme to default
 sns.set_theme()
 
+# Function to create a graph given a specified statistic, number of quarterbacks to view and whether data should be ascending or descending
 def create_graph(stat, limit, ascending):
+    # String of SQL query to find the data based on the parameters passed into the function
     query = '''SELECT Player, Team, "''' + stat + '''" FROM dataset ORDER BY "''' + stat + '''" ''' + ascending + ''' LIMIT ''' + str(limit)
-    result = duckdb.query(query).to_df()
-    imgSrc = "graphs/" + stat + str(limit) + ascending + ".png"
+    result = duckdb.query(query).to_df() # Uses duckdb library to use the query on the quarterback dataset and convert it to another mini dataframe of specified data for graph creation
+    imgSrc = "graphs/" + stat + str(limit) + ascending + ".png" # Creates unique image filename based on user form submission
     
-    plt.figure(figsize=(max(7, limit * 0.5), 7))
-    graph = sns.barplot(result, x="Player", y=stat, hue='Team', palette=teamColors, legend=False)
+    plt.figure(figsize=(max(7, limit * 0.5), 7)) # Creates graph figure size based on how much data is in it
+    graph = sns.barplot(result, x="Player", y=stat, hue='Team', palette=teamColors, legend=False) # Creates the bar plot based on the query and sets color palette to each quarterback's team color
+    # Adds label containing the number for each statistic for each quarterback on top of their bar
     for i in range(len(graph.containers)):
         graph.bar_label(graph.containers[i])
-    plt.xticks(rotation=45, ha='right')
-    plt.tight_layout()
-    plt.savefig(imgSrc)
+    plt.xticks(rotation=45, ha='right') # Rotates the Quarterback name label on the x axis by 45 degrees
+    plt.tight_layout() 
+    plt.savefig(imgSrc) # Saves the bar plot to an image at the specified path of the image being created
 
-    return imgSrc;
+    return imgSrc; # Returns the image path where the bar graph is being saved
