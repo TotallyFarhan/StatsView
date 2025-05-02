@@ -23,7 +23,7 @@ Then go to the main page of this forked repository's page, then click on the **<
 
 Then copy the link to clone it using **HTTPS**.
 
-Now open your terminal (in Visual Studio Code or your computer's terminal), and navigate to where you want this project to be located.
+Now open your terminal in rlogin, and navigate to the root directory and type the following command:
 
 Enter the following command:
 
@@ -31,17 +31,37 @@ Enter the following command:
 git clone https://github.com/{YOUR USERNAME HERE}/StatsView.git
 ```
 
-This should create a new cloned copy of the project for you to have.
+This should create a new cloned copy of the project for you to have on rlogin. To open this project in VSCode, now you should be able to click **File > Open Project** and StatsView should be an option to open.
 
-Now use the following command to navigate into the project directory:
+After this step, you should have the StatsView project open without a virutal environment set up yet. This is the next step.
+
+### Step 2: Starting up the Virtual Environment
+
+To set up the virtual environment, type the following command
+
+Use following command to navigate into the project directory:
 
 ```bash
 cd StatsView
 ```
 
-### Step 2: Set up the Backend
+To create the new virtual environment, use the following command:
 
-First, open a new terminal in Powershell (either on VSCode or computer), and navigate into the backend directory by running the command:
+```bash
+python3.11 -m venv "StatsViewVenv"
+```
+
+To start the virtual environment, run:
+
+```bash
+source ./StatsViewVenv/bin/activate
+```
+
+Now your virtual environment should be ready, so kill this terminal and open a new Bash Terminal.
+
+### Step 3: Set up the Backend
+
+First, navigate into the backend directory by running the command:
 
 ```bash
 cd backend
@@ -57,9 +77,9 @@ This should ensure you have all the libraries necessary to create graphs and run
 flask --app server run
 ```
 
-### Step 3: Set up the Frontend
+### Step 4: Set up the Frontend
 
-Next, open another terminal (either Command Prompt or Git Bash work) and ensure that you are in the StatsView Root Directory, and not in the backend. If you are, simply run ```cd ..```
+Next, open another bash terminal and ensure that you are in the StatsView Root Directory, and not in the backend. If you are, simply run ```cd ..```
 
 Then navigate into the frontend using the following command:
 
