@@ -28,7 +28,7 @@ Now open your terminal (in Visual Studio Code or your computer's terminal), and 
 Enter the following command:
 
 ```bash
-git clone https://github.com/TotallyFarhan/StatsView.git
+git clone https://github.com/{YOUR USERNAME HERE}/StatsView.git
 ```
 
 This should create a new cloned copy of the project for you to have.
