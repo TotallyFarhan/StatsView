@@ -30,13 +30,13 @@ function App() {
   const [limit, setLimit] = useState(10); // State variable to hold the limit from the form on the website
   const [stat, setStat] = useState("Pass Yards"); // State variable to hold the stat from the form on the website
   const [ascend, setAscend] = useState("DESC"); // State variable to hold the choice of ascending or descending from the form on the website
-  const [imageUrl, setImageUrl] = useState("http://localhost:5000/graphs/Pass Yards10DESC.png"); // State variable to hold the image path of the graph
+  const [imageUrl, setImageUrl] = useState("/starter.png"); // State variable to hold the image path of the graph
   const [submittedStat, setSubmittedStat] = useState(stat); // State variable to hold the submitted stat
   const [submittedLimit, setSubmittedLimit] = useState(limit); // State variable to hold the submitted limit
   const [submittedAscend, setSubmittedAscend] = useState(ascend); // State variable to hold the submitted choice of ascending or descending
 
   // Function to handle form submission
-  const submit = async(e) => {
+  const submit = async (e) => {
     e.preventDefault();
     // JSON Object of the users form submission data
     let submission = {
@@ -45,13 +45,17 @@ function App() {
       "ascending": ascend
     }
     // Uses axios to send a POST request to the backend the JSON object of the form submission data
-    const response = await axios.post("http://localhost:5000/submit", submission, {
-      headers: {
-        'Content-Type': 'application/json'
-      }
+    const response = await fetch("http://localhost:5000/submit", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(submission)
     });
-    let url = "http://localhost:5000/" + response.data["image"]; // Gets the image URL from the response JSON object returned from the backend
-    setImageUrl(url); // Updates the image state variable with the new graph image
+
+    // Grab buffer from response object sent by flask
+    const blob = await response.blob();
+    const imageUrl = URL.createObjectURL(blob);
+    setImageUrl(imageUrl); // Update Image URL with buffer passed in
+
     setSubmittedAscend(ascend); // Updates the submitted choice of ascending or descending
     setSubmittedLimit(limit); // Updates the submitted limit
     setSubmittedStat(stat); // Updates the submitted stat
@@ -76,29 +80,29 @@ function App() {
       <div className="formContainer">
         <h1>🏈 StatsView 🏈</h1>
         <div className="form-group">
-              <label for="stat-select">Select Statistic:</label>
-              <select id="stat-select" onChange={handleStatDropDown} defaultValue={stat}>
-                {stats.map(stat => (
-                  <option key={stat} value={stat}>{stat}</option>
-                ))}
-              </select>
-          </div>
-          <div className="form-group">
-              <label for="limit-select">Select Limit:</label>
-              <select id="limit-select" onChange={handleLimitDropDown} defaultValue={limit}>
-                {limits.map(limit => (
-                  <option key={limit} value={limit}>{limit}</option>
-                ))}
-              </select>
-          </div>
-          <div className="form-group">
-              <label for="ascend-select">Ascending or Descending:</label>
-              <select id="ascend-select" onChange={handleAscendDropDown} defaultValue={ascend}>
-                  <option value="ASC">Ascending</option>
-                  <option value="DESC">Descending</option>
-              </select>
-          </div>
-          <button id="submit-button" onClick={submit}>Submit</button>
+          <label for="stat-select">Select Statistic:</label>
+          <select id="stat-select" onChange={handleStatDropDown} defaultValue={stat}>
+            {stats.map(stat => (
+              <option key={stat} value={stat}>{stat}</option>
+            ))}
+          </select>
+        </div>
+        <div className="form-group">
+          <label for="limit-select">Select Limit:</label>
+          <select id="limit-select" onChange={handleLimitDropDown} defaultValue={limit}>
+            {limits.map(limit => (
+              <option key={limit} value={limit}>{limit}</option>
+            ))}
+          </select>
+        </div>
+        <div className="form-group">
+          <label for="ascend-select">Ascending or Descending:</label>
+          <select id="ascend-select" onChange={handleAscendDropDown} defaultValue={ascend}>
+            <option value="ASC">Ascending</option>
+            <option value="DESC">Descending</option>
+          </select>
+        </div>
+        <button id="submit-button" onClick={submit}>Submit</button>
       </div>
       <div className="result">
         <h1>{submittedAscend == "DESC" ? "Top" : "Bottom"} {submittedLimit} QBs in {submittedStat}</h1>

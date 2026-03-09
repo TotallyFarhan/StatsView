@@ -1,7 +1,10 @@
 from graphs import create_graph
-from flask import Flask, request, jsonify, send_from_directory
+from flask import Flask, request, jsonify, send_file
 from flask_cors import CORS
 import os
+
+# Ensure the graphs directory exists
+os.makedirs("graphs", exist_ok=True)
 
 # Initializes flask server
 app = Flask(__name__)
@@ -12,13 +15,8 @@ CORS(app, resources={r"/*": {"origins": "*"}})
 @app.route('/submit', methods=['POST'])
 def get_data():
     data = request.get_json() # Retrieves the form data from the JSON object sent from the frontend
-    imageUrl = create_graph(data["stat"], data["limit"], data["ascending"]) # Sends the form data to the create_graph function to create a bar graph and save the image path to the imageUrl variable
-    return jsonify({"image": imageUrl}) # Sends the imageUrl path back in a JSON object
-
-# Function to allow the graphs directory to be sent to the frontend so that the image paths can be accessed from the frontend
-@app.route('/graphs/<path:filename>')
-def get_graph_image(filename):
-    return send_from_directory(os.path.join('graphs'), filename)
+    imageBuffer = create_graph(data["stat"], data["limit"], data["ascending"]) # Sends the form data to the create_graph function to create a bar graph and save the image path to the imageUrl variable
+    return send_file(imageBuffer, mimetype='image/png') # Sends the imageUrl path back in a JSON object
 
 # Run the flask app
 if __name__ == "__main__":

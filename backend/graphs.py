@@ -2,8 +2,15 @@ import pandas
 import duckdb
 import seaborn as sns
 import matplotlib.pyplot as plt
+import matplotlib
+import io
+import os
 
-qbStatTable = "quarterbackDataset.csv"
+# Headless Backend
+matplotlib.use("Agg")
+
+baseDirectory = os.path.dirname(__file__)
+qbStatTable = os.path.join(baseDirectory, "quarterbackDataset.csv")
 # Array of all the column names to be used in our dataset
 columns = ["Player", "Age", "Team", "G", "QBrec", "Cmp", "Att", "Cmp%", "Yds", "TD", "Int", "1D", "Succ%", "Lng", "Y/A", "Y/C", "Rate", "QBR", "Sk", "4QC", "GWD"]
 # Array of all the column labels to be used in the dataset
@@ -59,10 +66,13 @@ sns.set_theme()
 
 # Function to create a graph given a specified statistic, number of quarterbacks to view and whether data should be ascending or descending
 def create_graph(stat, limit, ascending):
+    # Prevent potential SQL Injection
+    if stat not in colLabels:
+        return "Invalid Stat"
     # String of SQL query to find the data based on the parameters passed into the function
     query = '''SELECT Player, Team, "''' + stat + '''" FROM dataset ORDER BY "''' + stat + '''" ''' + ascending + ''' LIMIT ''' + str(limit)
     result = duckdb.query(query).to_df() # Uses duckdb library to use the query on the quarterback dataset and convert it to another mini dataframe of specified data for graph creation
-    imgSrc = "graphs/" + stat + str(limit) + ascending + ".png" # Creates unique image filename based on user form submission
+    #imgSrc = "graphs/" + stat + str(limit) + ascending + ".png" # Creates unique image filename based on user form submission
     
     plt.figure(figsize=(max(7, limit * 0.5), 7)) # Creates graph figure size based on how much data is in it
     graph = sns.barplot(result, x="Player", y=stat, hue='Team', palette=teamColors, legend=False) # Creates the bar plot based on the query and sets color palette to each quarterback's team color
@@ -71,6 +81,11 @@ def create_graph(stat, limit, ascending):
         graph.bar_label(graph.containers[i])
     plt.xticks(rotation=45, ha='right') # Rotates the Quarterback name label on the x axis by 45 degrees
     plt.tight_layout() 
-    plt.savefig(imgSrc) # Saves the bar plot to an image at the specified path of the image being created
 
-    return imgSrc; # Returns the image path where the bar graph is being saved
+    buffer = io.BytesIO() # Create memory buffer
+    plt.savefig(buffer, format="png") # Saves created graph to the buffer
+    plt.close()
+
+    buffer.seek(0)
+
+    return buffer # Return buffer

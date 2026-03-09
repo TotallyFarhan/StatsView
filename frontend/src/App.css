@@ -1,8 +1,10 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+
 body {
   margin: 0; /* Remove default margin */
   background-color: #121212; /* Dark background */
   color: #f0f0f0; /* Light text color */
-  font-family: 'Segoe UI', sans-serif; /* Font style */
+  font-family: 'Roboto', sans-serif; /* Font style */
   transition: background-color 0.3s ease; /* Smooth bg transition */
 }
 
