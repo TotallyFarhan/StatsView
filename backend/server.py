@@ -3,9 +3,6 @@ from flask import Flask, request, jsonify, send_file
 from flask_cors import CORS
 import os
 
-# Ensure the graphs directory exists
-os.makedirs("graphs", exist_ok=True)
-
 # Initializes flask server
 app = Flask(__name__)
 # Allows any type of data to be sent through requests

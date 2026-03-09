@@ -72,7 +72,6 @@ def create_graph(stat, limit, ascending):
     # String of SQL query to find the data based on the parameters passed into the function
     query = '''SELECT Player, Team, "''' + stat + '''" FROM dataset ORDER BY "''' + stat + '''" ''' + ascending + ''' LIMIT ''' + str(limit)
     result = duckdb.query(query).to_df() # Uses duckdb library to use the query on the quarterback dataset and convert it to another mini dataframe of specified data for graph creation
-    #imgSrc = "graphs/" + stat + str(limit) + ascending + ".png" # Creates unique image filename based on user form submission
     
     plt.figure(figsize=(max(7, limit * 0.5), 7)) # Creates graph figure size based on how much data is in it
     graph = sns.barplot(result, x="Player", y=stat, hue='Team', palette=teamColors, legend=False) # Creates the bar plot based on the query and sets color palette to each quarterback's team color
