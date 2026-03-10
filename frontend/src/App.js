@@ -34,10 +34,14 @@ function App() {
   const [submittedStat, setSubmittedStat] = useState(stat); // State variable to hold the submitted stat
   const [submittedLimit, setSubmittedLimit] = useState(limit); // State variable to hold the submitted limit
   const [submittedAscend, setSubmittedAscend] = useState(ascend); // State variable to hold the submitted choice of ascending or descending
+  const [loading, setLoading] = useState(false) // State variable to handle loading animation while waiting for graph to show up
 
   // Function to handle form submission
   const submit = async (e) => {
     e.preventDefault();
+
+    setLoading(true);
+
     // JSON Object of the users form submission data
     let submission = {
       "stat": stat,
@@ -45,7 +49,7 @@ function App() {
       "ascending": ascend
     }
     // Uses axios to send a POST request to the backend the JSON object of the form submission data
-    const response = await fetch("http://localhost:5000/submit", {
+    const response = await fetch("https://statsview.onrender.com/submit", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(submission)
@@ -59,6 +63,8 @@ function App() {
     setSubmittedAscend(ascend); // Updates the submitted choice of ascending or descending
     setSubmittedLimit(limit); // Updates the submitted limit
     setSubmittedStat(stat); // Updates the submitted stat
+
+    setLoading(false);
   }
 
   // Function to handle when the user changes their form choice for stat
@@ -105,8 +111,15 @@ function App() {
         <button id="submit-button" onClick={submit}>Submit</button>
       </div>
       <div className="result">
-        <h1>{submittedAscend == "DESC" ? "Top" : "Bottom"} {submittedLimit} QBs in {submittedStat}</h1>
-        <img src={imageUrl} />
+
+        {loading ? (
+          <div className="spinner"></div>
+        ) : (
+          <>
+            <h1>{submittedAscend == "DESC" ? "Top" : "Bottom"} {submittedLimit} QBs in {submittedStat}</h1>
+            <img src={imageUrl} />
+          </>
+        )}
       </div>
     </div>
   );
