@@ -1,4 +1,3 @@
-import axios from 'axios';
 import { useState } from 'react';
 import './App.css';
 
@@ -116,8 +115,8 @@ function App() {
           <div className="spinner"></div>
         ) : (
           <>
-            <h1>{submittedAscend == "DESC" ? "Top" : "Bottom"} {submittedLimit} QBs in {submittedStat}</h1>
-            <img src={imageUrl} />
+            <h1>{submittedAscend === "DESC" ? "Top" : "Bottom"} {submittedLimit} QBs in {submittedStat}</h1>
+            <img src={imageUrl} alt="Quarterback statistics graph" />
           </>
         )}
       </div>
